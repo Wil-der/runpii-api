@@ -4,10 +4,11 @@ framework:
     
     # Configuración de la sesión con Redis
     session:
-        handler_id: 'Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler'
+        handler_id: App\Session\RedisSessionHandler
         cookie_secure: auto
         cookie_samesite: lax
         storage_factory_id: session.storage.factory.native
+        cookie_lifetime: 604800  # 7 días
     
     # Habilitar traducciones
     translator:
