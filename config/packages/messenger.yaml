@@ -13,9 +13,6 @@ framework:
             failed: 'doctrine://default?queue_name=failed'
 
         routing:
-            Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-            Symfony\Component\Notifier\Message\ChatMessage: async
-            Symfony\Component\Notifier\Message\SmsMessage: async
             App\Message\*: async
 
 when@test:

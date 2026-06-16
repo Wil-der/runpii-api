@@ -1,95 +1,85 @@
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/vendor/
-###< symfony/framework-bundle ###
+# Dependencies
+node_modules/
+vendor/
 
-###> symfony/security-bundle ###
-# Claves JWT y certificados (¡MUY IMPORTANTE!)
-/config/jwt/*.pem
-/config/jwt/private.pem
-/config/jwt/public.pem
-###< symfony/security-bundle ###
+# Logs
+*.log
+logs/
+.svn/
 
-###> symfony/mercure-bundle ###
-/.env.mercure
-###< symfony/mercure-bundle ###
+# Environment specific
+.env
+.env.local
+.env.*
 
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-.phpunit.cache/
-###< phpunit/phpunit ###
-
-###> composer ###
-composer.phar
-###< composer ###
-
-###> node ###
-/node_modules/
-npm-debug.log
-yarn-error.log
-/package-lock.json
-/yarn.lock
-###< node ###
-
-###> IDEs y editores ###
-/.idea/
-/.vscode/
+# IDE
+.vscode/
+.idea/
 *.swp
 *.swo
-*~
-.project
-.settings/
-.buildpath
-*.sublime-project
-*.sublime-workspace
-###< IDEs y editores ###
 
-###> Sistemas operativos ###
+# OS
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
 Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-###< Sistemas operativos ###
 
-###> Docker ###
-/docker-compose.override.yml
-###< Docker ###
+# Build artifacts
+dist/
+build/
+target/
+*.pyc
+__pycache__/
+*.class
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
 
-###> Bases de datos ###
-*.sqlite
-*.db
-*.sql.gz
-*.sql
-###< Bases de datos ###
+# Cache
+.cache/
+.mypy_cache/
+.pytest_cache/
+.coverage
+coverage/
+htmlcov/
+.gradle/
+.npm/
 
-###> Logs ###
-/var/log/*.log
-/var/log/*.log.*
-###< Logs ###
+# Temp files
+*.tmp
+*.temp
+*.bak
+*.zip
+*.tar.gz
+*.tar
+*.gz
+*.rar
+*.7z
+*.bz2
+*.xz
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tgz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
 
-###> Build y temporales ###
-/public/build/
-/public/hot/
-/public/storage/
-/public/storage/*
-!public/storage/.gitkeep
-###< Build y temporales ###
-
-###> Archivos de caché de Symfony ###
-/var/cache/*
-!var/cache/.gitkeep
-###< Archivos de caché de Symfony ###
-###> lexik/jwt-authentication-bundle ###
-/config/jwt/*.pem
-###< lexik/jwt-authentication-bundle ###
+# Images (if accidentally added)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.webp
+*.svg
+*.ico
