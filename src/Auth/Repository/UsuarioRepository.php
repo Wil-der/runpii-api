@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @extends ServiceEntityRepository<Usuario>
  */
-class UsuarioRepository extends ServiceEntityRepository implements \Symfony\Component\Security\Core\User\UserLoaderInterface
+class UsuarioRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
