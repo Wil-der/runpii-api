@@ -15,12 +15,48 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            App:
+            Auth:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                dir: '%kernel.project_dir%/src/Auth/Entity'
+                prefix: 'App\Auth\Entity'
+                alias: Auth
+            Mensajero:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Mensajero/Entity'
+                prefix: 'App\Mensajero\Entity'
+                alias: Mensajero
+            Envio:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Envio/Entity'
+                prefix: 'App\Envio\Entity'
+                alias: Envio
+            Tracking:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Tracking/Entity'
+                prefix: 'App\Tracking\Entity'
+                alias: Tracking
+            Chat:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Chat/Entity'
+                prefix: 'App\Chat\Entity'
+                alias: Chat
+            Pago:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Pago/Entity'
+                prefix: 'App\Pago\Entity'
+                alias: Pago
+            Admin:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Admin/Entity'
+                prefix: 'App\Admin\Entity'
+                alias: Admin
 
 when@test:
     doctrine:
