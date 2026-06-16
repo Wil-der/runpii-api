@@ -1,15 +1,36 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
     secret: '%env(APP_SECRET)%'
-
-    # Note that the session will be started ONLY if you read or write from it.
-    session: true
-
-    #esi: true
-    #fragments: true
+    
+    # Configuración de la sesión con Redis
+    session:
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
+        cookie_secure: auto
+        cookie_samesite: lax
+        storage_factory_id: session.storage.factory.native
+    
+    # Habilitar traducciones
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+        fallbacks:
+            - es
+    
+    # Validación habilitada
+    validation:
+        email_validation_mode: html5
+    
+    # HTTP Client para servicios externos
+    http_client:
+        scoped_clients:
+            nominatim.client:
+                base_uri: '%env(NOMINATIM_URL)%'
+            osrm.client:
+                base_uri: '%env(OSRM_URL)%'
 
 when@test:
     framework:
         test: true
         session:
             storage_factory_id: session.storage.factory.mock_file
+        validation:
+            not_compromised_password: false

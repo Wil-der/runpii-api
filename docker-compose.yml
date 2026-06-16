@@ -1,0 +1,128 @@
+version: '3.8'
+
+services:
+  # Base de datos MariaDB 10.11 (LTS) - Compatible con MySQL
+  mariadb:
+    image: mariadb:10.11
+    container_name: messaging_mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${DB_NAME:-messaging_db}
+      MYSQL_USER: ${DB_USER:-app_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-app_password}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./docker/mariadb/conf.d:/etc/mysql/conf.d:ro
+    ports:
+      - "3306:3306"
+    networks:
+      - messaging_network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis para caché y sesiones
+  redis:
+    image: redis:7.2-alpine
+    container_name: messaging_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - messaging_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Mercure Hub para tiempo real
+  mercure:
+    image: dunglas/mercure:v0.17
+    container_name: messaging_mercure
+    restart: unless-stopped
+    environment:
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins http://localhost:8000 http://localhost:80
+        anonymous
+    ports:
+      - "8080:80"
+    networks:
+      - messaging_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Nominatim para geocoding (OpenStreetMap)
+  nominatim:
+    image: mediagis/nominatim:4.4
+    container_name: messaging_nominatim
+    restart: unless-stopped
+    environment:
+      PBF_PATH: /nominatim/data.osm.pbf
+      NOMINATIM_USERNAME: ${NOMINATIM_USER:-nominatim}
+      NOMINATIM_PASSWORD: ${NOMINATIM_PASSWORD:-nominatim_pass}
+    volumes:
+      - nominatim_data:/var/lib/postgresql/14/main
+    ports:
+      - "8081:8080"
+    networks:
+      - messaging_network
+    # Nota: Requiere descargar datos OSM inicialmente
+
+  # OSRM para cálculo de rutas
+  osrm:
+    image: osrm/osrm-backend:v5.27
+    container_name: messaging_osrm
+    restart: unless-stopped
+    command: osrm-routed --algorithm mld /data/map.osrm
+    volumes:
+      - osrm_data:/data
+    ports:
+      - "5000:5000"
+    networks:
+      - messaging_network
+    # Nota: Requiere preparar datos OSM inicialmente
+
+  # Worker para procesar colas de mensajes (Messenger)
+  worker:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: messaging_worker
+    restart: unless-stopped
+    command: php bin/console messenger:consume async -vv
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - messaging_network
+
+networks:
+  messaging_network:
+    driver: bridge
+
+volumes:
+  mariadb_data:
+    driver: local
+  redis_data:
+    driver: local
+  nominatim_data:
+    driver: local
+  osrm_data:
+    driver: local

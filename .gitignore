@@ -1,61 +1,69 @@
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/vendor/
-###< symfony/framework-bundle ###
+```
+# Dependencies
+vendor/
+composer.lock
 
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
+# Symfony specific
+var/
+!var/.gitkeep
+public/bundles/
 
-###> symfony/phpunit-bridge ###
-.phpunit/
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-
-###> symfony/messenger ###
-/var/messenger_messages/
-###< symfony/messenger ###
-
-###> symfony/translation ###
-/var/translations/
-###< symfony/translation ###
-
-###> symfony/validator ###
-/var/validator/
-###< symfony/validator ###
+# Environment
+.env.local
+.env.*
+!.env
 
 # Logs
-/var/log/*.log
-/var/log/prod/
-/var/log/dev/
+*.log
+var/log/
 
 # Cache
-/var/cache/*
-!var/cache/.gitkeep
+.cache/
+.php_cs.cache
 
-# IDE
-/.idea/
-/.vscode/
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
 *.swp
 *.swo
-*~
-.DS_Store
-
-# Composer
-composer.phar
-
-# Build
-/build/
-/public/build/
 
 # Tests
-/.phpunit.cache/
+.phpunit.result.cache
+
+# Compiled and build artifacts
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
+
+# Compressed files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
+```
