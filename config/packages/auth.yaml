@@ -1,0 +1,37 @@
+# Configuración del módulo de Autenticación
+
+# Servicios del módulo Auth
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Auth\:
+        resource: '../../src/Auth/'
+        exclude:
+            - '../../src/Auth/DependencyInjection/'
+            - '../../src/Auth/Entity/'
+            - '../../src/Auth/Repository/'
+
+    # TokenBlacklistService con conexión a Redis
+    App\Auth\Service\TokenBlacklistService:
+        arguments:
+            $redis: '@redis_connection'
+            $ttl: '%env(int:JWT_TTL_SECONDS)%'
+
+# Configuración de JWT
+lexik_jwt_authentication:
+    secret_key: '%env(resolve:JWT_SECRET_KEY)%'
+    public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
+    pass_phrase: '%env(JWT_PASSPHRASE)%'
+    token_ttl: '%env(JWT_TTL)%'
+    
+    # Configuración adicional para el listener de blacklist
+    api_platform:
+        check_path: /api/login_check
+        username_path: email
+        password_path: password
+
+# Listener de blacklist para JWT
+# El listener se registra automáticamente como EventSubscriber
+
