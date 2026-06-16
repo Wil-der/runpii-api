@@ -1,0 +1,16 @@
+framework:
+    rate_limiter:
+        api:
+            policy: 'token_bucket'
+            limit: 100
+            rate: { interval: '1 minute', amount: 100 }
+        
+        login:
+            policy: 'sliding_window'
+            limit: 5
+            interval: '1 minute'
+        
+        messaging:
+            policy: 'token_bucket'
+            limit: 30
+            rate: { interval: '1 minute', amount: 30 }
