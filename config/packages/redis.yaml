@@ -1,0 +1,12 @@
+services:
+    # Configuración del handler de sesiones con Redis
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        class: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
+        arguments:
+            - '@redis'
+
+    # Cliente Redis para sesiones
+    redis:
+        class: \Redis
+        calls:
+            - [connect, ['%env(REDIS_HOST)%', '%env(int:REDIS_PORT)%']]
