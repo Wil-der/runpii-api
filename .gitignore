@@ -90,3 +90,6 @@ $RECYCLE.BIN/
 /var/cache/*
 !var/cache/.gitkeep
 ###< Archivos de caché de Symfony ###
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
